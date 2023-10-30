@@ -12,6 +12,28 @@ java {
 }
 
 configurations {
+	detachedConfiguration1 {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+	
+    detachedConfiguration2 {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+	    detachedConfiguration70 {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    classpath {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+
+    mainSourceElements {
+        canBeResolved = false
+        canBeConsumed = true
+    }
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -21,6 +43,14 @@ repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
 	maven { url 'https://repo.spring.io/snapshot' }
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+            output.dir('C:\\Users\\egis\\Desktop\\진아\\proj\\target\\classes\\java\\main')
+        }
+    }
 }
 
 dependencies {
@@ -40,6 +70,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// mysql
 	implementation 'mysql:mysql-connector-java:8.0.23'
+	 implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {

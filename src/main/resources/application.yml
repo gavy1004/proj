@@ -1,0 +1,25 @@
+server:
+  port: 8160
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+    
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    check-template-location: true
+    enable-spring-el-compiler: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+

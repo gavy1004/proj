@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.core.io.DefaultResourceLoader;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +17,6 @@ public class LoginController {
      */
     @RequestMapping(value={"/","/login.do"})
     public String main(HttpServletRequest request){
-        log.info("이제된다고 말해 ");
         return "/view/login";
     }
 
