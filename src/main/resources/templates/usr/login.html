@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+<body>
+    <form id="loginForm">
+        <input type="text" id="usrId">
+        <input type="password" id="usrPwd">
+    </form>
+    <button type="button" id="loginBtn"> 로그인
+
+    <button type="button" id="joinBtn"> 회원가입
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loginProc();
+    });
+
+    function loginProc(){
+        var loginBtn = document.getElementById("loginBtn");
+        loginBtn.addEventListener('click',function(){
+            
+            // axios.method(url, data )
+            const loginData = document.getElementById("loginForm");
+            axios.get('/userList.do');
+            //axios.post('/loginAction.do', loginData)
+        });
+    }
+</script>
+
+</body>
+</html>

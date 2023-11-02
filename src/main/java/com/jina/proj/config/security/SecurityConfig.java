@@ -7,16 +7,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,9 +38,9 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 
-@Slf4j
+@Slf4j  // 로그 자동 생성 (lombok)
 @Configuration
-@EnableWebSecurity
+@RequiredArgsConstructor // final 생성자 자동 생성(lombok)
 public class SecurityConfig {
     // 모든 요청은 인증이 되어야 자원에 접근 가능 
 
@@ -53,18 +57,18 @@ public class SecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer configure() {
-        return (web) -> web.ignoring().mvcMatchers( // 특정 요청 패턴 무시 
-                "/view/**",
-                "/js/**",
+        return (web) -> web.ignoring().antMatchers( // 특정 요청 패턴 무시하도록 설정
                 "/css/**",
+                "/images/**",
                 "/plugins/**",
+                "/js/**",
+                "/login",
                 "/logout",
-                "/favicon.ico",
                 "/",
+                "/favicon.ico",
                 "/error",
                 "/join",
-                 "/login"
-
+                "/usr/**"
         );
     }
 
@@ -72,40 +76,42 @@ public class SecurityConfig {
      * @description HttpSecurity 구성  
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-        .authorizeRequests() // 요청에 의한 보안검사 시작
-        .antMatchers("/loginView.do")
-        .permitAll()
-        .and()
-        .formLogin()
-        .loginPage("/login"); //어떤 요청에도 보안검사를 한다.
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+            .cors() // CORS 필터 적용
+            .and()
+            .csrf().disable() // CSRF 보호 기능 비활성화
+            .httpBasic().disable() // http 기본 인증 비활성화
+            .formLogin().disable() // 폼 로그인 비활성화
 
-        //http.exceptionHandling() // Exception 처리
-        //.authenticationEntryPoint(authenticationEntryException) // 인증 예외
-        //.accessDeniedHandler(accessDeniedHandlerException) // 인가 예외
+            .headers() // http 응답 헤더 구성
+            .frameOptions()
+            .sameOrigin() // 동일 출처 프레임 사용 허용
 
+            .and()
+            .sessionManagement() // 세션 관리 설정
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 생성하지 않음
+
+            // 권한 검사
+            .and()
+            .authorizeRequests()
+            .antMatchers(
+                    "/main"
+            ).authenticated()
+            .anyRequest()
+            //.access("@JwtAuthChecker.checkAuthURI(request)") // 권한별 메뉴 접근 허용
+            .authenticated()
             /* 
-            http.authorizeRequests(requests -> requests
-            .anyRequest().authenticated())
-            .formLogin(form -> form
-            .loginPage("/view/login")
-            .loginProcessingUrl("/loginProc")
-            .usernameParameter("id")
-            .passwordParameter("pw")
-                        .defaultSuccessUrl("/view/dashboard", true)
-                        .permitAll()
-                        ).logout(logout -> {});
-                        */
+            //.addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) // JWT*/
+            .and()
+            // 예외 핸들링 추가
+            .exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint()) // 인증
+            .accessDeniedHandler(accessDeniedHandler()); // 인가
 
-        // 해당기능 사용하기 위해서는 프론트 단에서 csrf토큰 값 보내줘야함 
-        //.httpBasic(basic ->basic.disable())
-        //.formLogin(login ->login.disable())
-        //.cors().disable()   
-        //.csrf().disable()
-        return http.build();
+        return httpSecurity.build();
     }
-    
+
     /**
      * @description 접근 거부(403) 예외 처리
      */
@@ -132,7 +138,7 @@ public class SecurityConfig {
             if(isAxios(request)) { // 클라이언트
                 response.setStatus(response.SC_FORBIDDEN); // 403
             } else { // 서버
-                //response.sendRedirect("/login");
+                response.sendRedirect("/login");
             }
             log.error("URI : {},  인증되지 않은 사용자입니다.", request.getRequestURI());
         };
