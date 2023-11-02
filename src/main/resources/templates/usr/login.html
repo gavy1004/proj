@@ -1,9 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
+
+    <!-- sweetAlert2 -->
+    <link rel="stylesheet" th:href="@{/plugins/sweetalert2/sweetalert2.min.css}">
+    <!-- jquery -->
+    <script th:src="@{/plugins/jquery/jquery-3.6.1.min.js}"></script>
+    <script th:src="@{/plugins/jquery-serialize-object/jquery.serialize-object.min.js}"></script>
+    <!-- jquery-validate -->
+    <script th:src="@{/plugins/jquery-validation/jquery.validate.min.js}"></script>
+    <!-- jquery-ui -->
+    <script th:src="@{/plugins/jquery-ui/jquery-ui.js}"></script>
+    <!-- axios -->
+    <script th:src="@{/plugins/axios/axios.min.js}"></script>
+    <!-- sweetAlert2 -->
+    <script th:src="@{/plugins/sweetalert2/sweetalert2.min.js}"></script>
 </head>
 <body>
     <form id="loginForm">
@@ -25,7 +39,7 @@
             
             // axios.method(url, data )
             const loginData = document.getElementById("loginForm");
-            axios.get('/userList.do');
+            axios.get('/loginAction.do');
             //axios.post('/loginAction.do', loginData)
         });
     }

@@ -45,16 +45,6 @@ repositories {
 	maven { url 'https://repo.spring.io/snapshot' }
 }
 
-/*
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-            output.dir('C:\\Users\\egis\\Desktop\\진아\\proj\\target\\classes\\java\\main')
-        }
-    }
-}*/
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -67,15 +57,42 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    
+    // lombok
+    implementation "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+    testImplementation "org.projectlombok:lombok"
+    testAnnotationProcessor "org.projectlombok:lombok"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// mysql
 	implementation 'mysql:mysql-connector-java:8.0.23'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+	// querydsl
+    implementation "com.querydsl:querydsl-jpa:5.0.0"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
+    implementation "com.querydsl:querydsl-sql:5.0.0"
+    implementation "com.querydsl:querydsl-sql-spring:5.0.0"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// querydsl
+def querydslSrcDir = "$buildDir/generated/querydsl"
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+sourceSets {
+    main.java.srcDir querydslSrcDir
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }

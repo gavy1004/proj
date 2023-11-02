@@ -1,10 +1,11 @@
-package com.jina.proj.usr;
+package com.jina.proj.usr.login.web;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class LoginController {
+    
     
     /** 
      * @description 메인 화면 
@@ -26,16 +28,17 @@ public class LoginController {
 
     @RequestMapping(value = "/loginAction.do")
     public String loginAction(){
+        
         return "";  
     }
 
-    /*@RequestMapping(value = "/userList.do")
+    @RequestMapping(value = "/userList.do")
     @ResponseBody
     public ResponseEntity<List<UsrInfo>> dlf(){
         // 도시계획 조회
         List<UsrInfo> resultList = cpService.selectCityPlan(cityPlan);
 
         return ResponseEntity.status(HttpStatus.OK).body(resultList);
-    }*/
+    }
 
 }
