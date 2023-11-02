@@ -15,10 +15,11 @@ public class LoginController {
      * @description 메인 화면 
      * @return main or login 페이지  
      */
-    /*@RequestMapping(value={"/","/login.do"})
+    @RequestMapping(value={"/loginView.do"})
     public String main(HttpServletRequest request){
+        log.info("됨.. 어ㅔ내// ");
         return "/view/login";
-    }*/
+    }
 
     @RequestMapping(value = "/loginAction.do")
     public String loginAction(){

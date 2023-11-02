@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
     // 모든 요청은 인증이 되어야 자원에 접근 가능 
 
@@ -52,16 +54,17 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers( // 특정 요청 패턴 무시 
-               // "/view/**",
+                "/view/**",
                 "/js/**",
                 "/css/**",
                 "/plugins/**",
-                "/login",
                 "/logout",
                 "/favicon.ico",
-                //"/",
+                "/",
                 "/error",
-                "/join"
+                "/join",
+                 "/login"
+
         );
     }
 
@@ -70,16 +73,30 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(requests -> requests
+        http
+        .authorizeRequests() // 요청에 의한 보안검사 시작
+        .antMatchers("/loginView.do")
+        .permitAll()
+        .and()
+        .formLogin()
+        .loginPage("/login"); //어떤 요청에도 보안검사를 한다.
+
+        //http.exceptionHandling() // Exception 처리
+        //.authenticationEntryPoint(authenticationEntryException) // 인증 예외
+        //.accessDeniedHandler(accessDeniedHandlerException) // 인가 예외
+
+            /* 
+            http.authorizeRequests(requests -> requests
             .anyRequest().authenticated())
-        .formLogin(form -> form
+            .formLogin(form -> form
             .loginPage("/view/login")
             .loginProcessingUrl("/loginProc")
             .usernameParameter("id")
             .passwordParameter("pw")
-            .defaultSuccessUrl("/view/dashboard", true)
-            .permitAll()
-        ).logout(logout -> {});
+                        .defaultSuccessUrl("/view/dashboard", true)
+                        .permitAll()
+                        ).logout(logout -> {});
+                        */
 
         // 해당기능 사용하기 위해서는 프론트 단에서 csrf토큰 값 보내줘야함 
         //.httpBasic(basic ->basic.disable())
@@ -115,7 +132,7 @@ public class SecurityConfig {
             if(isAxios(request)) { // 클라이언트
                 response.setStatus(response.SC_FORBIDDEN); // 403
             } else { // 서버
-                response.sendRedirect("/login");
+                //response.sendRedirect("/login");
             }
             log.error("URI : {},  인증되지 않은 사용자입니다.", request.getRequestURI());
         };
