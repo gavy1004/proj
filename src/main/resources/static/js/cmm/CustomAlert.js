@@ -26,7 +26,6 @@ class CustomAlert {
         heightAuto: true,
         showCloseButton: true,
         confirmButtonText: '확인',
-        buttonsStyling: false,
         allowOutsideClick: false,
         allowEnterKey: false
     });
@@ -36,10 +35,6 @@ class CustomAlert {
      * @type {SweetAlertOptions}
      */
     static #confirm = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn type11',
-            cancelButton: 'btn type13',
-        },
         width: '350px',
         title: `알림`,
         heightAuto: true,
@@ -47,7 +42,6 @@ class CustomAlert {
         showCancelButton: true,
         confirmButtonText: '확인',
         cancelButtonText: '취소',
-        buttonsStyling: false,
         allowOutsideClick: false,
         allowEnterKey: false
     });
@@ -107,7 +101,7 @@ class CustomAlert {
         const _this = this;
         return this.#alert.fire({
             html: `<p>${text}</p>`,
-            imageUrl: `/images/alert/icon-success.png`,
+            icon:"success",
             //접근성 이슈로 인한 alert 내 input title 추가
             didOpen: () => {
                 if ('usr' === _this.#isMng()) {
@@ -177,7 +171,7 @@ class CustomAlert {
         const _this = this;
         return this.#alert.fire({
             html: `<p>${text}</p>`,
-            imageUrl: `/images/alert/icon-info.png`,
+            icon:"info",
             //접근성 이슈로 인한 alert 내 input title 추가
             didOpen: () => {
                 if ('usr' === _this.#isMng()) {
@@ -214,7 +208,7 @@ class CustomAlert {
         const _this = this;
         this.#confirm.fire({
             html: `<p>${text}</p>`,
-            imageUrl: `/images/alert/icon-question.png`,
+            icon:"question",
             //접근성 이슈로 인한 alert 내 input title 추가
             didOpen: () => {
                 if (_this.#isMng()) {

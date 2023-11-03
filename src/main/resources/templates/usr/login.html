@@ -55,16 +55,12 @@
 
     // 회원가입
     $("#joinBtn").click(function(){
-        //CustomAlert.confirm("회원가입 하시겠습니까?", function(){
+        CustomAlert.confirm("회원가입 하시겠습니까?", function(){
             if (validation.form("joinForm", validation.joinRule)){
-                const url = "/join"
+                const url = "/usr/join"
                 const formData = new URLSearchParams($("#joinForm").serialize());
-                /*try{
-                    if(!$('#terms2').prop('checked')) {
-                        CustomAlert.info("개인정보 수집 및 이용에 동의하지 않았습니다.");
-                        return;
-                    }
-                    axios
+                try{
+                    /*axios
                         .post(url, formData)
                         .then(function(response){
                             CustomAlert.success("회원가입에 성공했습니다.");
@@ -74,12 +70,13 @@
                         })
                         .catch(function(error){
                             CustomAlert.error(error.response.data);
-                        });
+                        });*/
                 }catch (e){
+                    console.log(e)
                     CustomAlert.error(e.response.data)
-                }*/
+                }
             }
-       //})
+       })
     });
 
 </script>

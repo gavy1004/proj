@@ -122,7 +122,7 @@ class Validation{
             required: true,
             minlength: 4,
             maxlength: 20,
-            regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
+            //regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
         }
         /*usrId: {
             required: true,

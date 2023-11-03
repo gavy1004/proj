@@ -35,7 +35,7 @@ public class LoginController {
 
     @RequestMapping(value = "/user/join.do")
     @ResponseBody
-    public String join(@Param("param") String msg){
+    public String join(){
         System.out.println("히히"+msg);
         return "";  
     }
