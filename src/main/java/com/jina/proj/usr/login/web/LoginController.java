@@ -2,6 +2,7 @@ package com.jina.proj.usr.login.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,13 +33,20 @@ public class LoginController {
         return "";  
     }
 
-    @RequestMapping(value = "/userList.do")
+    @RequestMapping(value = "/user/join.do")
     @ResponseBody
-    public ResponseEntity<List<UsrInfo>> dlf(){
-        // 도시계획 조회
-        List<UsrInfo> resultList = cpService.selectCityPlan(cityPlan);
-
-        return ResponseEntity.status(HttpStatus.OK).body(resultList);
+    public String join(@Param("param") String msg){
+        System.out.println("히히"+msg);
+        return "";  
     }
+
+    /*  @RequestMapping(value = "/userList.do")
+    @ResponseBody
+    public ResponseEntity<List<Account>> dlf(){
+        // 도시계획 조회
+       // List<Account> resultList = cpService.selectCityPlan(cityPlan);
+
+        return ResponseEntity.status(HttpStatus.OK).body();
+    }*/
 
 }

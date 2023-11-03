@@ -7,6 +7,7 @@
 
     <!-- sweetAlert2 -->
     <link rel="stylesheet" th:href="@{/plugins/sweetalert2/sweetalert2.min.css}">
+
     <!-- jquery -->
     <script th:src="@{/plugins/jquery/jquery-3.6.1.min.js}"></script>
     <script th:src="@{/plugins/jquery-serialize-object/jquery.serialize-object.min.js}"></script>
@@ -18,31 +19,69 @@
     <script th:src="@{/plugins/axios/axios.min.js}"></script>
     <!-- sweetAlert2 -->
     <script th:src="@{/plugins/sweetalert2/sweetalert2.min.js}"></script>
+
+    <!-- 커스텀 sweetAlert -->
+    <script th:src="@{/js/cmm/CustomAlert.js}"></script>
+    <!-- form validation 기능 -->
+    <script th:src="@{/js/cmm/Validation.js}"></script>
+
+    <script>
+        const validation = new Validation();
+    </script>
+
 </head>
 <body>
+    <h1></h1>
     <form id="loginForm">
-        <input type="text" id="usrId">
-        <input type="password" id="usrPwd">
+        <input type="text" id="usrId" placeholder="아이디 입력해 주세요">
+        <input type="password" id="usrPwd" placeholder="비밀번호를 입력해 주세요">
+        <button type="button" id="loginBtn"> 로그인 </button>
+        <input type="checkBox" id="saveId"> 아이디 저장 
     </form>
-    <button type="button" id="loginBtn"> 로그인
+   
 
-    <button type="button" id="joinBtn"> 회원가입
+    <h1></h1>
+    <form id="joinForm">
+        <input type="text" name="joinName" placeholder="이름을 입력해 주세요">
+        <input type="text" name="joinId" placeholder="아이디를 입력해 주세요">
+        <input type="password" name="joinPwd" placeholder="비밀번호를 입력해 주세요">
+        <button type="button" id="joinBtn"> 회원가입 </button>
+    </form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        loginProc();
+        
     });
 
-    function loginProc(){
-        var loginBtn = document.getElementById("loginBtn");
-        loginBtn.addEventListener('click',function(){
-            
-            // axios.method(url, data )
-            const loginData = document.getElementById("loginForm");
-            axios.get('/loginAction.do');
-            //axios.post('/loginAction.do', loginData)
-        });
-    }
+    // 회원가입
+    $("#joinBtn").click(function(){
+        //CustomAlert.confirm("회원가입 하시겠습니까?", function(){
+            if (validation.form("joinForm", validation.joinRule)){
+                const url = "/join"
+                const formData = new URLSearchParams($("#joinForm").serialize());
+                /*try{
+                    if(!$('#terms2').prop('checked')) {
+                        CustomAlert.info("개인정보 수집 및 이용에 동의하지 않았습니다.");
+                        return;
+                    }
+                    axios
+                        .post(url, formData)
+                        .then(function(response){
+                            CustomAlert.success("회원가입에 성공했습니다.");
+                            $(".swal2-actions").click(function(){
+                                location.href = "/login";
+                            });
+                        })
+                        .catch(function(error){
+                            CustomAlert.error(error.response.data);
+                        });
+                }catch (e){
+                    CustomAlert.error(e.response.data)
+                }*/
+            }
+       //})
+    });
+
 </script>
 
 </body>

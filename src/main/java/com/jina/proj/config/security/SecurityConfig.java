@@ -94,11 +94,12 @@ public class SecurityConfig {
 
             // 권한 검사
             .and()
-            .authorizeRequests()
-            .antMatchers(
+            .authorizeRequests()    // authorizeRequest() : 인증, 인가가 필요한 URL 지정
+            .antMatchers(           // antMatchers(URL)
                     "/main"
-            ).authenticated()
-            .anyRequest()
+            ).authenticated()       // 해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
+                                    // 해당 URL에 진입하기 위해서 Authorization(인가, ex)권한이 ADMIN인 유저만 진입 가능)이 필요함
+            .anyRequest()           // anyRequest() : 그 외의 모든 URL
             //.access("@JwtAuthChecker.checkAuthURI(request)") // 권한별 메뉴 접근 허용
             .authenticated()
             /* 
