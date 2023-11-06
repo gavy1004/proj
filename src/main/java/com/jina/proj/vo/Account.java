@@ -32,18 +32,19 @@ public class Account implements UserDetails{
 
     @Comment("사용자_ID")
     @Column(nullable = false, length = 20)
-    private String id;
+    private String userId;
 
     @Comment("사용자명")
     @Column(nullable = false, length = 20)
-    private String name;
+    private String userName;
 
     @Comment("비밀번호")
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String pwd;
+    private String userPwd;
 
     @Comment("등록_일자")
+    @Column(name="inDt")
     @DateTimeFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     private LocalDateTime inDt;
     
@@ -52,9 +53,11 @@ public class Account implements UserDetails{
     private String lckYn;
 
     @Comment("잠김_횟수")
+    @Column
     private int lckCnt;
 
     @Comment("잠금_일자")
+    @Column
     @DateTimeFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     private LocalDateTime lckDt;
     
@@ -69,30 +72,28 @@ public class Account implements UserDetails{
         this.idx = idx;
     }
     
-    public String getId() {
-        return this.id;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+	public String getUserPwd() {
+		return this.userPwd;
+	}
+
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
+	}
+    
+    public String getUserName() {
+        return this.userName;
     }
 
-    public String getName() {
-        return this.name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPwd() {
-        return this.pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
     public LocalDateTime getInDt() {
         return this.inDt;
     }
@@ -139,12 +140,12 @@ public class Account implements UserDetails{
     }
     @Override
     public String getPassword() {
-        return this.pwd;
+        return this.userPwd;
     }
 
     @Override
     public String getUsername() {
-        return this.id;
+        return this.userId;
     }
 
     // 계정이 만료 되었는지 (true: 만료X)

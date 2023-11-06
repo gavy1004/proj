@@ -68,7 +68,7 @@ public class SecurityConfig {
                 "/",
                 "/favicon.ico",
                 "/error",
-                "/usr/**"
+                "/user/**"
         );
     }
 
@@ -83,7 +83,6 @@ public class SecurityConfig {
             .csrf().disable() // CSRF 보호 기능 비활성화
             .httpBasic().disable() // http 기본 인증 비활성화
             .formLogin().disable() // 폼 로그인 비활성화
-
             .headers() // http 응답 헤더 구성
             .frameOptions()
             .sameOrigin() // 동일 출처 프레임 사용 허용

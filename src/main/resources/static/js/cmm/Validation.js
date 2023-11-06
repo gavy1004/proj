@@ -14,24 +14,7 @@
 class Validation{
 
     /* 기능에 따른 유효성 검사 규칙 정의 */
-
-    /**
-     * @description 메뉴 관리 등록, 수정
-     */
-
     usrRule= {
-        grpInfoId: {
-            required: true,
-        },
-        orgInfoId: {
-            required: true,
-        },
-        usrId: {
-            required: true,
-            minlength: 4,
-            maxlength: 20,
-            regex: /^[a-zA-Z0-9]{4,20}$/
-        },
         pwd: {
             required: true,
             minlength: 4,
@@ -42,32 +25,12 @@ class Validation{
             required: true,
             equalTo: "#insertUsrPwd"
         },
-        usrNm: {
-            required: true,
-            minlength: 2,
-            maxlength: 10
-            // regex:/^[가-힣]{2,10}$/
-        },
         eml: {
             email: true
         },
-        tlno: {
-            tel: true
-        },
-        authInfoId: {
-            required: true
-        },
-        usrRank: {
-            required: true
-        }
     }
 
     usrPwUpdateRule = {
-        adminPw: {
-            required: true,
-            minlength: 4,
-            maxlength: 20
-        },
         pwd: {
             required: true,
             minlength: 4,
@@ -80,55 +43,34 @@ class Validation{
         }
     }
 
-
     lyrRule = {
-        lyrNm: {
-            required: true
-        },
         lyrNmEn: {
             required: true,
             regex: /^[A-Za-z]+$|^[A-Za-z][A-Za-z0-9_-]*$/
         },
-        lyrDc: {
-            required: true
-        },
-        callTy: {
-            required: true
-        },
-        lyrTy: {
-            required: true
-        },
         maxLv: {
-            regex: /^[0-9]*$/
-        },
-        minLv: {
             regex: /^[0-9]*$/
         }
     }
 
     joinRule = {
-        joinName:{
+        userName:{
             required: true,
             minlength: 2,
             maxlength: 10
         },
-        joinId:{
+        userId:{
             required: true,
             minlength: 4,
             maxlength: 20,
         },
-        joinPwd:{
+        userPwd:{
             required: true,
             minlength: 4,
             maxlength: 20,
             //regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
         }
-        /*usrId: {
-            required: true,
-            minlength: 4,
-            maxlength: 20,
-            regex: /^[a-zA-Z0-9]{4,20}$/
-        },
+        /*
         pwd: {
             required: true,
             minlength: 4,
@@ -144,31 +86,7 @@ class Validation{
             minlength: 2,
             maxlength: 10
             // regex:/^[가-힣]{2,10}$/
-        },
-        grpInfoId: {
-            required: true
-        },
-        orgInfoId: {
-            required: true
-        },
-        usrRank: {
-            required: true
         }*/
-    }
-
-    qnaRule = {
-        ttl : {
-            required: true
-        },
-        ctt : {
-            required: true
-        }
-    }
-
-    qnaRplyRule = {
-        ctt : {
-            required: true
-        }
     }
 
     constructor() {
@@ -210,18 +128,18 @@ class Validation{
         // 검증식 에러 메시지
         $.validator.setDefaults({
             messages: {
-                joinName:{
+                userName:{
                     required: "사용자명을 입력하세요.",
                     minlength: "사용자명은 2~10자 한글 이어야 합니다.",
                     maxlength: "사용자명은 2~10자 한글 이어야 합니다.",
                 },
-                joinId:{
+                userId:{
                     required: "사용자 ID를 입력하세요.",
                     minlength: "사용자 ID는 4~20자 영문자 또는 숫자이어야 합니다.",
                     maxlength: "사용자 ID는 4~20자 영문자 또는 숫자이어야 합니다.",
                     regex: "사용자 ID는 4~20자 영문자 또는 숫자이어야 합니다."
                 },
-                joinPwd:{
+                userPwd:{
                     required: "비밀번호를 입력하세요.",
                     minlength: "비밀번호는 4~20자 영문자,숫자,특수문자 조합 이어야 합니다.",
                     maxlength: "비밀번호는 4~20자 영문자,숫자,특수문자 조합 이어야 합니다.",
