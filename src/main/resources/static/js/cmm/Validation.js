@@ -81,7 +81,6 @@ class Validation{
     }
 
 
-
     lyrRule = {
         lyrNm: {
             required: true

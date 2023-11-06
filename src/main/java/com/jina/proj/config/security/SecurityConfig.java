@@ -63,11 +63,11 @@ public class SecurityConfig {
                 "/plugins/**",
                 "/js/**",
                 "/login",
+                "/join",
                 "/logout",
                 "/",
                 "/favicon.ico",
                 "/error",
-                "/join",
                 "/usr/**"
         );
     }

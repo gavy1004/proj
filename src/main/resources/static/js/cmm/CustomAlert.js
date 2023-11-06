@@ -18,9 +18,6 @@ class CustomAlert {
      * @type {SweetAlertOptions}
      */
     static #alert = Swal.mixin({
-        /*customClass: {
-            confirmButton: 'btn type11'
-        },*/
         width: '350px',
         title: '알림',
         heightAuto: true,
@@ -101,7 +98,7 @@ class CustomAlert {
         const _this = this;
         return this.#alert.fire({
             html: `<p>${text}</p>`,
-            icon:"success",
+            icon: "success",
             //접근성 이슈로 인한 alert 내 input title 추가
             didOpen: () => {
                 if ('usr' === _this.#isMng()) {
@@ -171,7 +168,7 @@ class CustomAlert {
         const _this = this;
         return this.#alert.fire({
             html: `<p>${text}</p>`,
-            icon:"info",
+            icon: "info",
             //접근성 이슈로 인한 alert 내 input title 추가
             didOpen: () => {
                 if ('usr' === _this.#isMng()) {
@@ -208,7 +205,7 @@ class CustomAlert {
         const _this = this;
         this.#confirm.fire({
             html: `<p>${text}</p>`,
-            icon:"question",
+            icon: "question",
             //접근성 이슈로 인한 alert 내 input title 추가
             didOpen: () => {
                 if (_this.#isMng()) {

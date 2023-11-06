@@ -41,42 +41,43 @@
    
 
     <h1></h1>
-    <form id="joinForm">
+    <form id="joinForm" onsubmit="return false";>
         <input type="text" name="joinName" placeholder="이름을 입력해 주세요">
         <input type="text" name="joinId" placeholder="아이디를 입력해 주세요">
         <input type="password" name="joinPwd" placeholder="비밀번호를 입력해 주세요">
-        <button type="button" id="joinBtn"> 회원가입 </button>
+        <button type="submit" id="joinBtn"> 회원가입 </button>
     </form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         
     });
-
+    
     // 회원가입
-    $("#joinBtn").click(function(){
+    $("#joinForm").submit(function(){
         CustomAlert.confirm("회원가입 하시겠습니까?", function(){
             if (validation.form("joinForm", validation.joinRule)){
                 const url = "/usr/join"
                 const formData = new URLSearchParams($("#joinForm").serialize());
                 try{
-                    /*axios
+                    axios
                         .post(url, formData)
                         .then(function(response){
+                            console.log(response);
                             CustomAlert.success("회원가입에 성공했습니다.");
-                            $(".swal2-actions").click(function(){
+                            /*$(".swal2-actions").click(function(){
                                 location.href = "/login";
-                            });
+                            });*/
                         })
                         .catch(function(error){
                             CustomAlert.error(error.response.data);
-                        });*/
+                        });
                 }catch (e){
                     console.log(e)
                     CustomAlert.error(e.response.data)
                 }
             }
-       })
+        })
     });
 
 </script>
