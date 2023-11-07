@@ -35,11 +35,13 @@ public class LoginController {
     @RequestMapping(value = { "/" , "/login" })
     public String main(HttpServletRequest request){
         // 권한 확인 후 있으면 main 페이지로 이동
+        //return "dashboard";
+
         return "usr/login";
     }
     
-    @RequestMapping()
-    public void login(@ResponseBody Account account, HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "/user/actionLogin")
+    public void login(Account account, HttpServletRequest request, HttpServletResponse response) throws Exception {
         loginServiceImpl.login(account, request, response);
     }
 

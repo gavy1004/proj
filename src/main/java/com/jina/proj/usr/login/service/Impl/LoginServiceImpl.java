@@ -39,6 +39,8 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
     @Override
     public void login(Account account, HttpServletRequest request, HttpServletResponse response) throws Exception {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(account.getUserId(), account.getUserPwd()); // 인증 객체 생성
+            log.info(account.getUserId());
+            log.info(account.getUserPwd());
 
         try {
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken); // loadUserByUsername 메소드를 통해 검증
@@ -52,6 +54,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
             user.setLckCnt(0); //잠김 횟수 초기화
             accountRepository.save(user); // 사용자 정보 저장
 
+            log.info("*******************************************************************************************************");
             // 토큰 정보 엔티티 생성
             /*TokenInfo tokenInfo = TokenInfo.builder()
                     .usrId(claims.getSubject())
@@ -110,8 +113,10 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        throw new UnsupportedOperationException("Unimplemented method 'loadUserByUsername'");
+        Account account = accountRepository.findByUserId(username)
+                            .orElseThrow(() -> new BadCredentialsException("아이디 또는 비밀번호를 잘못 입력하셨습니다."));
+        
+        return account;
     }
 
 }

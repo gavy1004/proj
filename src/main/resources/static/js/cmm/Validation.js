@@ -14,42 +14,13 @@
 class Validation{
 
     /* 기능에 따른 유효성 검사 규칙 정의 */
-    usrRule= {
-        pwd: {
-            required: true,
-            minlength: 4,
-            maxlength: 20,
-            regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
-        },
-        chkPwd: {
-            required: true,
-            equalTo: "#insertUsrPwd"
-        },
-        eml: {
-            email: true
-        },
-    }
 
-    usrPwUpdateRule = {
-        pwd: {
-            required: true,
-            minlength: 4,
-            maxlength: 20,
-            regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
+    loginRule = {
+        userId:{
+            required: true
         },
-        chkUdtPwd: {
-            required: true,
-            equalTo: "#updateUsrPwd"
-        }
-    }
-
-    lyrRule = {
-        lyrNmEn: {
-            required: true,
-            regex: /^[A-Za-z]+$|^[A-Za-z][A-Za-z0-9_-]*$/
-        },
-        maxLv: {
-            regex: /^[0-9]*$/
+        userPwd:{
+            required: true
         }
     }
 
@@ -68,25 +39,8 @@ class Validation{
             required: true,
             minlength: 4,
             maxlength: 20,
-            //regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
-        }
-        /*
-        pwd: {
-            required: true,
-            minlength: 4,
-            maxlength: 20,
             regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{4,20}$/
-        },
-        chkPwd: {
-            required: true,
-            equalTo: "#joinMemPwd"
-        },
-        usrNm: {
-            required: true,
-            minlength: 2,
-            maxlength: 10
-            // regex:/^[가-힣]{2,10}$/
-        }*/
+        }
     }
 
     constructor() {
@@ -171,6 +125,7 @@ class Validation{
      * @param {Object} rules 유효성 검사 규칙
      */
     form(formId, rules){
+        console.log($("#"+formId))
         $("#"+formId).validate({
             rules: rules,
             errorPlacement: function(error, element) {
@@ -179,11 +134,12 @@ class Validation{
         });
 
         if ($("#"+formId).valid()){     // 유효성 검사 통과
+            console.log('trye')
             return true;
         }else{                          // 유효성 검사 불통
             const errorList = $("#"+formId).validate().errorList;
             const errorMessage = errorList[0].message;
-
+            console.log('false')
             CustomAlert.error(errorMessage);
 
             return false;

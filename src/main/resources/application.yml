@@ -23,3 +23,15 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+    hibernate:
+      ddl-auto: create
+
+# jwt.secret.key의 값은 256bit 이상이어야 합니다.
+jwt:
+  secret:
+    key: x!A%D*G-KaPdSgVkYp3s5v8y/B?E(H+
