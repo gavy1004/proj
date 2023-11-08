@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @RequiredArgsConstructor // final 생성자 자동 생성(lombok)
 public class SecurityConfig {
-    // 모든 요청은 인증이 되어야 자원에 접근 가능 
+    private final JwtProvider jwtProvider;
 
     /**
      * @description BCrypt 알고리즘 비밀번호 암호화  
@@ -94,17 +94,23 @@ public class SecurityConfig {
             // 권한 검사
             .and()
             .authorizeRequests()    // authorizeRequest() : 인증, 인가가 필요한 URL 지정
-            .antMatchers(           // antMatchers(URL)
+            // 회원가입과 로그인은 모두 승인
+            .antMatchers("/join", "/login").permitAll()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            // /user 로 시작하는 요청은 USER 권한이 있는 유저에게만 허용
+            .antMatchers("/user/**").hasRole("USER")
+            .anyRequest().denyAll()
+            /* .antMatchers(           // antMatchers(URL)
                     "/main"
             ).authenticated()       // 해당 URL에 진입하기 위해서 Authentication(인증, 로그인)이 필요함
                                     // 해당 URL에 진입하기 위해서 Authorization(인가, ex)권한이 ADMIN인 유저만 진입 가능)이 필요함
                                     
             .anyRequest()           // anyRequest() : 그 외의 모든 URL
             //.access("@JwtAuthChecker.checkAuthURI(request)") // 권한별 메뉴 접근 허용
-            .authenticated()
-            /* 
-            //.addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) // JWT*/
+            .authenticated()*/
+
             .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) // JWT
             // 예외 핸들링 추가
             .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPoint()) // 인증
@@ -113,6 +119,7 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
+    
     /**
      * @description 접근 거부(403) 예외 처리
      */

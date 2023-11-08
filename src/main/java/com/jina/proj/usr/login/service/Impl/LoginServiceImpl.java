@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jina.proj.config.security.JwtProvider;
 import com.jina.proj.usr.login.repository.AccountRepository;
 import com.jina.proj.usr.login.service.LoginService;
 import com.jina.proj.vo.Account;
@@ -31,6 +32,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final JwtProvider jwtProvider;
 
     /**
      * @methodName login
@@ -62,8 +64,8 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
                     .build();
             tokenRepository.save(tokenInfo); // 토큰 정보 DB에 저장
             histService.saveCntnHist(request, usrInfo.getUsrId(), "I", "S"); // 접속 이력 DB에 저장
-            jwtProvider.setCookie(token, response); // 토큰 쿠키에 저장
-            */
+            jwtProvider.setCookie(token, response); // 토큰 쿠키에 저장*/
+            
         }catch (BadCredentialsException e) { // 아이디 또는 비밀번호 틀린 경우 예외 처리
 
             // 사용자 정보 조회
