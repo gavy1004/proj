@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Main</title>
+
+    <link rel="stylesheet" th:href="@{/plugins/sweetalert2/sweetalert2.min.css}">
+
+    <script th:src="@{/plugins/jquery/jquery-3.6.1.min.js}"></script>
+    <script th:src="@{/plugins/jquery-serialize-object/jquery.serialize-object.min.js}"></script>
+    <!-- jquery-validate -->
+    <script th:src="@{/plugins/jquery-validation/jquery.validate.min.js}"></script>
+    <!-- jquery-ui -->
+    <script th:src="@{/plugins/jquery-ui/jquery-ui.js}"></script>
+    <!-- axios -->
+    <script th:src="@{/plugins/axios/axios.min.js}"></script>
+    <!-- sweetAlert2 -->
+    <script th:src="@{/plugins/sweetalert2/sweetalert2.min.js}"></script>
+
+    <!-- 커스텀 sweetAlert -->
+    <script th:src="@{/js/cmm/CustomAlert.js}"></script>
+    <!-- form validation 기능 -->
+    <script th:src="@{/js/cmm/Validation.js}"></script>
+
 </head>
 <body>
     dashboard
+    <button class="logout-btn">logout</button>
+    <script>
+        $('.logout-btn').click(() => {
+            axios.post('/logout')
+                .then(response => {
+                    window.location.href = '/';
+                })
+                .catch(error => {
+                    alert(error.response.data);
+                });
+            return false;
+        });
+    </script>
 </body>
 </html>

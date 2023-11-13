@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,7 +59,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
         try {
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken); // loadUserByUsername 메소드를 통해 검증
             SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContextHolder에 인증 정보 저장
-            TokenInfo token = jwtProvider.createTocken(authentication); // 인증 정보를 기반으로 JWT 토큰 생성
+            TokenInfo token = jwtProvider.createToken(authentication); // 인증 정보를 기반으로 JWT 토큰 생성
             Claims claims = jwtProvider.parseClaims(token.getAccToken()); // JWT 토큰을 파싱하여 JWT payload 에 저장된 정보
 
             // 사용자 정보 조회
@@ -97,6 +98,30 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
             throw new DisabledException("계정이 가입 승인 대기 중입니다. \n가입 승인 후 로그인하세요.");
         } catch (RuntimeException e) {
             throw new RuntimeException("오류가 발생하였습니다.");
+        }
+    }
+    /**
+     * @methodName logout
+     * @description 로그아웃
+     */
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String accToken = jwtProvider.getCookie(request); // 쿠키에서 엑세스 토큰을 가져온다.
+            Claims claims = jwtProvider.parseClaims(accToken); // 토큰에서 payload 정보(사용자 정보)를 가져온다.
+
+            // 쿠키 삭제
+            Cookie cookie = new Cookie("token", null);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+
+            tokenRepository.deleteById(claims.getSubject()); // DB에서 토큰 삭제
+            Authentication authentication = jwtProvider.getAuthentication(accToken); // 토큰에서 권한 정보를 가져온다.
+            //String usrId = jwtProvider.parseUsrId(authentication.getName()); // 사용자 ID
+            SecurityContextHolder.clearContext(); // SecurityContextHolder 초기화
+
+            log.error("로그아웃에 성공하였습니다.");
+        } catch (Exception e) {
+            log.error("로그아웃에 실패하였습니다.");
         }
     }
 

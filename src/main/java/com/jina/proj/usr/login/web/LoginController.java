@@ -19,6 +19,7 @@ import com.jina.proj.usr.login.repository.AccountRepository;
 import com.jina.proj.usr.login.service.Impl.LoginServiceImpl;
 import com.jina.proj.vo.Account;
 
+import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +34,7 @@ public class LoginController {
     
     /** 
      * @description 메인 화면 
-     * @return main or login 페이지  
+     * @return main or login 페이지 
      */
     @RequestMapping(value = { "/" , "/login" })
     public String main(HttpServletRequest request){
@@ -41,6 +42,7 @@ public class LoginController {
 
         if(StringUtils.hasText(accJwt) && jwtProvider.validateToken(accJwt)){
             return "redirect:/main";
+
         }else{
             return "usr/login";
         }
@@ -51,6 +53,10 @@ public class LoginController {
         return "dashboard";
     }
 
+    @RequestMapping(value = { "/logout"})
+    public void logout (HttpServletRequest request, HttpServletResponse response) throws IOException {
+        loginServiceImpl.logout(request, response);
+    }
     
     @RequestMapping(value = "/user/actionLogin")
     public void login(Account account, HttpServletRequest request, HttpServletResponse response) throws Exception {

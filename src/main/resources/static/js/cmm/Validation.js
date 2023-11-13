@@ -1,13 +1,10 @@
 /**
  * @description form 전송시 유효성 검사를 진행하는 스트립트 [JQuery Validation 플러그인 적용]
  * @filename Validation.js
- * @author 도시DT팀 김은애
- * @since 2023-07-25
  * @version 1.0
  *
  * 수정일            수정자		 Function 명
  * ------------    ---------    ----------------------------
- * 2023-07-25		김은애		 최초생성
  *
  **/
 
@@ -50,8 +47,6 @@ class Validation{
 
     /**
      * @description form의 유효성 검사를 진행시, 체크할 규칙 정의
-     * @author 도시DT팀 김은애
-     * @date 2023-07-25
      */
     validationSet(){
         // 정규식 체크
@@ -75,8 +70,6 @@ class Validation{
 
     /**
      * @description form의 유효성 검사를 진행하여 유효하지 않으면 표출할 메세지를 정의
-     * @author 도시DT팀 김은애
-     * @date 2023-07-25
      */
     validationMsg(){
         // 검증식 에러 메시지
@@ -120,7 +113,6 @@ class Validation{
 
     /**
      * @description form의 유효성 검사를 진행, 유효하면 true, 유효하지 않으면 false를 리턴하고 유효하지 않은 속성의 메세지를 alert.
-     * @date 2023-07-25
      * @param {String} formId 유효성 검사를 진행할 form id
      * @param {Object} rules 유효성 검사 규칙
      */

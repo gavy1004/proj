@@ -1,14 +1,8 @@
 /**
  * @description Alert, Confirm 등 메세지창을 SweetAlert 라이브러리 적용하기 위한 스크립트
  * @filename CustomAlert.js
- * @author 도시DT팀 김은애
- * @since 2023-06-30
  * @version 1.0
  *
- * 수정일            수정자		 Function 명
- * ------------    ---------    ----------------------------
- * 2023-06-30		김은애		 최초생성
- * 2023-07-19		이준호		 중복코드 제거 및 전역으로 선언하여 fire로 확장하여 재사용
  *
  **/
 class CustomAlert {
@@ -45,7 +39,6 @@ class CustomAlert {
 
     /**
      * @description CustomAlert 생성자 함수
-     * @author 도시DT팀 김은애
      * @since 2023-06-30
      */
     constructor() {}
@@ -61,8 +54,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (error)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      */
     static error(text) {
@@ -75,8 +66,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (error 표출 후 event 있을 때)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      * @param {Function} action 이벤트
      */
@@ -90,8 +79,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (success)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      */
     static success(text) {
@@ -110,8 +97,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (success 표출 후 event 있을 때)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      * @param {Function} action 확인 버튼 클릭 후, 이벤트
      */
@@ -125,8 +110,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (warning)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      */
     static warning(text) {
@@ -145,8 +128,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (warning 표출 후 event 있을 때)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      * @param {Function} action 확인 버튼 클릭 후, 이벤트
      */
@@ -160,8 +141,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (info)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      */
     static info(text) {
@@ -180,8 +159,6 @@ class CustomAlert {
 
     /**
      * @description alert 창 표출 (info 표출 후 event 있을 때)
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      * @param {Function} action 확인 버튼 클릭 후, 이벤트
      */
@@ -195,8 +172,6 @@ class CustomAlert {
 
     /**
      * @description confirm 창 표출
-     * @author 도시DT팀 김은애
-     * @date 2023-07-03
      * @param {string} text 문구
      * @param {Function} confirmAction - 확인 버튼 클릭 후, 이벤트
      * @param {Function} [cancelAction] - [선택] 취소 버튼 클릭 후, 이벤트

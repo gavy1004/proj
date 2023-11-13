@@ -4,8 +4,10 @@ package com.jina.proj.config.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.jina.proj.usr.login.repository.TokenRepository;
 import com.jina.proj.vo.Account;
@@ -13,6 +15,7 @@ import com.jina.proj.vo.TokenInfo;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.security.Key;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -55,10 +59,30 @@ public class JwtProvider {
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
         this.tokenRepository = tokenRepository;
     }
+    /**
+     * @description 토큰 재발급
+     * @param authentication 권한
+     * @return newToken 토큰 정보
+     */
+    public TokenInfo refresh(Authentication authentication) {
+        // 권한 정보의 사용자 계정을 통해 DB에서 리프래쉬 토큰 정보를 가져온다.
+        TokenInfo oldToken = tokenRepository.findByUsrId(authentication.getName())
+                .orElseThrow(() -> new JwtException("사용자 리프래쉬 토큰을 찾을 수 없습니다."));
+
+        // 리프래쉬 토큰의 유효성 검사
+        if(!validateToken(oldToken.getRefsToken())) {
+            throw new JwtException("리프래쉬 토큰이 유효하지 않습니다.");
+        }
+
+        TokenInfo newToken = createToken(authentication); // 새로운 엑세스/리프래쉬 토큰 생성
+        tokenRepository.save(newToken); // 토큰 정보 저장
+
+        return newToken;
+    }
+
 
     /**
      * @description 토큰 클레임 파싱
-     * @since 2023-07-19
      * @param accToken
      * @return Claims
      */
@@ -73,8 +97,6 @@ public class JwtProvider {
 
     /**
      * @description 사용자 ID 파싱
-     * @author SI사업부문 서비스개발팀 정수환
-     * @since 2023-07-19
      * @param usrId
      * @return usrId
      */
@@ -85,7 +107,7 @@ public class JwtProvider {
     /**
      * @description 토큰 생성 
      */
-    public TokenInfo createTocken(Authentication authentication) {
+    public TokenInfo createToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.joining(","));
@@ -120,7 +142,6 @@ public class JwtProvider {
     
     /**
      * @description 쿠키에 엑세스 토큰 저장
-     * @since 2023-07-19
      * @param tokenInfo 토큰 정보
      * @param response
      */
@@ -147,6 +168,26 @@ public class JwtProvider {
         }
     }
 
+    public Authentication getAuthentication(String accToken) {
+        Claims claims = parseClaims(accToken);
+
+        // 클레임에서 권한 정보 가져온다.
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get("auth").toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+        log.info("authorities = "+authorities);
+        // UserDetailsImpl 객체 생성
+        Account principal = Account.builder()
+                .userId(claims.getSubject())
+                .userPwd("").role(authorities)
+                .build();
+
+        // 권한이 있는 Authentication 객체 생성
+        return new UsernamePasswordAuthenticationToken(principal,"", authorities);
+    }
+
+
     // 토큰에 담겨있는 유저 account 획득
     public String getAccount(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
@@ -161,6 +202,7 @@ public class JwtProvider {
     public boolean validateToken(String token){
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            log.info(token);
             return true;
         }catch(io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");

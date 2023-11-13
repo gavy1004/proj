@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class ProjApplication {
 
 	public static void main(String[] args){
-   		SpringApplication springApplication = new SpringApplication(ProjApplication.class);
+		SpringApplication springApplication = new SpringApplication(ProjApplication.class);
         springApplication.setBannerMode(Banner.Mode.OFF);
         springApplication.run(args);
 	}
