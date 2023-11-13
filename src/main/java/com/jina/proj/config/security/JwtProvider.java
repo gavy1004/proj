@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.jina.proj.usr.login.service.LoginService;
+import com.jina.proj.usr.login.service.Impl.LoginServiceImpl;
 import com.jina.proj.vo.Account;
 
 import io.jsonwebtoken.Claims;
@@ -33,23 +33,23 @@ import java.util.stream.Collectors;
 /**
  * @description Jwt 토큰 생성 
  */
-@RequiredArgsConstructor
 @Component
 public class JwtProvider {
     @Value("${jwt.secret.key}")
     private String salt;
+
     private Key secretKey;
 
     // 만료시간 : 1Hour
     private final long exp = 1000L * 60 * 60;
 
-    private final LoginService loginService;
+    private final LoginServiceImpl loginServiceImpl;
 
 
     @PostConstruct
     protected void init() {
        // 
-        secretKey = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
+       secretKey = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
 
     }
 
@@ -72,7 +72,7 @@ public class JwtProvider {
      * @description 권한정보 획득 
      *  Spring Security 인증과정에서 권한확인을 위한 기능
      */
-    public Authentication getAuthentication(String token) {
+   /*  public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
         
         Collection<? extends GrantedAuthority> authorities =
@@ -86,7 +86,7 @@ public class JwtProvider {
                             .build(); 
 
         return new UsernamePasswordAuthenticationToken(account, "", authorities);
-    }
+    }*/
 
     // 토큰에 담겨있는 유저 account 획득
     public String getAccount(String token) {
@@ -122,13 +122,13 @@ public class JwtProvider {
      * @param accToken
      * @return Claims
      */
-    public Claims parseClaims(String accToken) {
-        try{
+     /*  public Claims parseClaims(String accToken) {
+      try{
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accToken).getBody();
         }catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
             return e.getClaims();
         }
-    }
+    }*/
 
 }

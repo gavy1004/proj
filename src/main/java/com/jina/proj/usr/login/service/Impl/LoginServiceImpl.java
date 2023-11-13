@@ -32,7 +32,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
-    private final JwtProvider jwtProvider;
+
 
     /**
      * @methodName login
