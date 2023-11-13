@@ -9,10 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jina.proj.config.security.JwtProvider;
 import com.jina.proj.usr.login.repository.AccountRepository;
 import com.jina.proj.usr.login.service.Impl.LoginServiceImpl;
 import com.jina.proj.vo.Account;
@@ -27,6 +29,7 @@ public class LoginController {
     
     private final LoginServiceImpl loginServiceImpl;
     private final AccountRepository accountRepository;
+    private final JwtProvider jwtProvider;
     
     /** 
      * @description 메인 화면 
@@ -34,11 +37,20 @@ public class LoginController {
      */
     @RequestMapping(value = { "/" , "/login" })
     public String main(HttpServletRequest request){
-        // 권한 확인 후 있으면 main 페이지로 이동
-        //return "dashboard";
+        String accJwt = jwtProvider.getCookie(request);
 
-        return "usr/login";
+        if(StringUtils.hasText(accJwt) && jwtProvider.validateToken(accJwt)){
+            return "redirect:/main";
+        }else{
+            return "usr/login";
+        }
     }
+    
+    @RequestMapping(value = { "/main"  })
+    public String dashboard(HttpServletRequest request){
+        return "dashboard";
+    }
+
     
     @RequestMapping(value = "/user/actionLogin")
     public void login(Account account, HttpServletRequest request, HttpServletResponse response) throws Exception {

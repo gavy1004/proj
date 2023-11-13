@@ -49,8 +49,7 @@
     <p id="duplicateArm"></p>
 
 <script>
-
-    // window on load fund()
+    
     document.addEventListener('DOMContentLoaded', function() {
         
     });
@@ -66,8 +65,7 @@
                 const formData = new URLSearchParams($("#joinForm").serialize());
                 
                 axios
-                .post(url, data)
-                //.post(url, formData)
+                .post(url, formData)
                 .then(function (response) {
                     arrTag.innerText = response.data ? "중복된아이디입니다." : "사용가능한아이디입니다.";
                 })

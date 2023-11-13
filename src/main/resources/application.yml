@@ -25,13 +25,17 @@ spring:
 
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        default_batch_fetch_size: 1000
-    hibernate:
-      ddl-auto: create
+        hbm2ddl:
+          import_files: classpath:db/basic-data.sql # DB 파일 명시적으로 선택
+          import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor # 멀티 라인 입력 가능하도록
+        connection:
+          charSet: UTF-8 # 인코딩 설정
 
-# jwt.secret.key의 값은 256bit 이상이어야 합니다.
 jwt:
-  secret:
-    key: x!A%D*G-KaPdSgVkYp3s5v8y/B?E(H+
+  key: and0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdpLWp3dC10ZXN0LWFsamphYmFlZ2ktand0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdpLWp3dC10ZXN0LWFsamphYmFlZ2ktand0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdp
+  accExpt: 10000000 
+  refExpt: 3600000

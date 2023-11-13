@@ -134,12 +134,10 @@ class Validation{
         });
 
         if ($("#"+formId).valid()){     // 유효성 검사 통과
-            console.log('trye')
             return true;
         }else{                          // 유효성 검사 불통
             const errorList = $("#"+formId).validate().errorList;
             const errorMessage = errorList[0].message;
-            console.log('false')
             CustomAlert.error(errorMessage);
 
             return false;

@@ -1,7 +1,6 @@
 package com.jina.proj.vo;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.*;
@@ -42,6 +41,9 @@ public class Account implements UserDetails{
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String userPwd;
+
+    @Comment("권한_정보")
+    private String authCd;
 
     @Comment("등록_일자")
     @Column(name="inDt")
@@ -100,6 +102,14 @@ public class Account implements UserDetails{
 
     public void setInDt(LocalDateTime inDt) {
         this.inDt = inDt;
+    }
+
+    public String getAuthCd() {
+        return this.authCd;
+    }
+
+    public void setAuthCd(String authCd) {
+        this.authCd = authCd;
     }
 
     public String getLckYn() {
