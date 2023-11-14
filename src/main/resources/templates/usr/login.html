@@ -128,7 +128,7 @@
             <div class="modal-body">
             <div class="card custom-card border-0 rounded-lg p-md-4 py-4 mb-2 mi">
                 <!-- 회원가입 form start -->
-                <form id="joinForm" onsubmit="return false";>
+                <form id="joinForm" name="joinForm" onsubmit="return false";>
                     <div class="row px-3"></div>
                     <div class="col-xl-12 col-12">
                         <div class="row mt-xl-4">
@@ -236,7 +236,7 @@
             </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-secondary" id="joinModalCanBtn">취소</button>
             <button type="button" class="btn btn-primary" id="joinBtn">회원가입</button>
             </div>
         </div>
@@ -254,8 +254,8 @@
 <script>
     $(window).on("load", function () {
         // 로그인
-        let button = $("#loginBtn");
-        button.click((e) => {
+        const loginBtn = $("#loginBtn");
+        loginBtn.click((e) => {
                 if(!$("#loginId").val() || !$("#loginPwd").val()){
                     const errorMessage= "아이디와 비밀번호를 입력해 주세요.";
                     CustomAlert.error(errorMessage);
@@ -281,17 +281,11 @@
                     CustomAlert.error(e.response.message)
                 }
         });
-    })
 
-    // ID 중복 체크
-   /* $("#idDupCheckBtn").click(function(){
-      
-    });*/
-
-    // 회원가입
-    $("#joinForm").submit(function(){
-        CustomAlert.confirm("회원가입 하시겠습니까?", function(){
-            if (validation.form("joinForm", validation.joinRule)){
+        // 회원가입 
+        const joinBtn = $("#joinBtn");
+        joinBtn.click((e) => {
+            CustomAlert.confirm("회원가입 하시겠습니까?", function(){
                 const url = "/user/join"
                 const formData = new URLSearchParams($("#joinForm").serialize());
                 try{
@@ -309,9 +303,9 @@
                 }catch (e){
                     CustomAlert.error(e.response.data)
                 }
-            }
-        })
-    });
+            })
+        });
+    })
 
 
 </script>
