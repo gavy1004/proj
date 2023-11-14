@@ -19,92 +19,274 @@
     <script th:src="@{/plugins/axios/axios.min.js}"></script>
     <!-- sweetAlert2 -->
     <script th:src="@{/plugins/sweetalert2/sweetalert2.min.js}"></script>
+    <!--  Font Awesome -->
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <!-- 커스텀 sweetAlert -->
     <script th:src="@{/js/cmm/CustomAlert.js}"></script>
-    <!-- form validation 기능 -->
-    <script th:src="@{/js/cmm/Validation.js}"></script>
 
-    <script>
-        const validation = new Validation();
-    </script>
+    <!-- form validation 기능 -->
+    <script th:src="@{/js/cmm/Validation2.js}"></script>
+
+    <script th:src="@{/js/cmm/CommonLogin.js}"></script>
+    
+    <!-- login CSS -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+
+
 
 </head>
-<body>
-    <h1></h1>
-    <form id="loginForm" onsubmit="return false";>
-        <input type="text" name="userId" placeholder="아이디 입력해 주세요">
-        <input type="password" name="userPwd" placeholder="비밀번호를 입력해 주세요">
-        <button type="submit" id="loginBtn"> 로그인 </button>
-        <input type="checkBox" name="saveId"> 아이디 저장 
-    </form>
+<body class="bg-black bg-opacity-10">
+    <div class="container-sm">
+        <main>
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-12 d-flex flex-column">
+                    <div class="card custom-card shadow-lg border-0 rounded-lg mt-4 p-md-4 ">
+                        <div class="card-body color-9E9E9E">
+                            <!-- 로그인 form start -->
+                            <form class="form-horizontal mt-3" id="loginForm" onsubmit="return false";>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control form-control-lg" name="userId" id="loginId" placeholder="아이디 입력해 주세요">
+                                    <label for="loginId">아이디</label>
+                                </div>
 
-    <h1></h1>
-    <form id="joinForm" onsubmit="return false";>
-        <input type="text" name="userName" placeholder="이름을 입력해 주세요">
-        <input type="text" name="userId" onkeyup="duplicationId(this);" placeholder="아이디를 입력해 주세요">
-        <input type="password" name="userPwd" placeholder="비밀번호를 입력해 주세요">
-        <button type="submit" id="joinBtn"> 회원가입 </button>
-    </form>
-    <p id="duplicateArm"></p>
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control form-control-lg" name="userPwd" id="loginPwd" placeholder="비밀번호를 입력해 주세요">
+                                    <label for="loginPwd">비밀번호</label>
+                                    <div id="eye-icon-wrapper">
+                                        <div class="d-flex h-100 justify-content-end align-items-center">
+                                            <i id="eye-icon" class="fa fa-eye me-2" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check mb-3">
+                                        <input type="checkBox" class="form-check-input" id="saveId"> 
+                                        <label class="form-check-label" for="saveId"> 아이디 저장 </label>
+                                    </div>
+                                        <a class="text-black-50 text-decoration-none">아이디·비밀번호 찾기</a>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary next-step-btn btn-block btn-lg login-btn mt-md-2 mt-1 w-100" id="loginBtn"> 로그인 </button>
+                                </div>
+                            </form>
+                            <!-- 로그인 form end -->
+                            <div>
+                                <div class="horizontal-line mt-4"></div>
+                                <div class="d-flex justify-content-center horizontal-line-text-warp mb-3">
+                                    <div class="horizontal-line-text-w100 text-center">간편 로그인</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <!-- 간편 로그인 Naver start -->
+                                    <div class="socialLoginButton colorNaver">
+                                        <div class="wrapper">
+                                            <img class="social-logo" alt="네이버 아이콘" src="/images/logos/naver_icon.png">
+                                            <label class="ms-4">네이버 로그인</label>
+                                        </div>
+                                    </div>
+                                    <!-- 간편 로그인 Naver end -->
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <!-- 간편 로그인 Kakao start -->
+                                    <div class="socialLoginButton colorKakao">
+                                        <div class="wrapper">
+                                            <img class="social-logo" alt="카카오 아이콘" src="/images/logos/kakao_icon.png">
+                                            <label class="ms-4">카카오 로그인</label>
+                                        </div>
+                                    </div>
+                                    <!-- 간편 로그인 Kakao end -->
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <span>회원이 아니신가요?</span>
+                                <a class="pt-cursor ms-2 text-decoration-none" data-bs-toggle="modal" data-bs-target="#joinModal">회원가입</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 회원가입 Modal start -->
+    <div class="modal fade" id="joinModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">회원가입</h5>
+            </div>
+            <div class="modal-body">
+            <div class="card custom-card border-0 rounded-lg p-md-4 py-4 mb-2 mi">
+                <!-- 회원가입 form start -->
+                <form id="joinForm" onsubmit="return false";>
+                    <div class="row px-3"></div>
+                    <div class="col-xl-12 col-12">
+                        <div class="row mt-xl-4">
+                            <label class="col-xl-2 col-12 form-label mt-1 text-16px color-9E9E9E" for="joinId">아이디</label>
+                            <div class="d-flex col-xl-10">
+                                <div class="col-xl-7 col-9">
+                                    <input type="text" class="form-control" name="userId" id="joinId">
+                                </div>
+                                <button type="button" class="ms-1 ms-xl-2 col-2 col-xl-1 btn sub-confirm-btn text-14px color-484848" id="idDupCheckBtn">중복확인</button>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-10 col-12">
+                                    <div id="idHelpMessage" class="ms-1 mt-1 small"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <label class="col-xl-2 col-12 form-label mt-2 text-16px color-9E9E9E" for="joinPwd">비밀번호</label>
+                            <div class="col-xl-6 col-12">
+                                <input type="password" class="form-control" name="joinPwd" id="joinPwd">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-10 col-12">
+                                    <div id="passwordHelpMessage" class="ms-1 mt-1 small"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <label class="col-xl-2 col-12 form-label mt-2 text-16px color-9E9E9E" for="joinPwdChk">비밀번호 확인</label>
+                            <div class="col-xl-6 col-12">
+                                <input type="password" class="form-control" name="joinPwdChk" id="joinPwdChk">
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-10 col-12">
+                                    <div id="passwordHelpMessage2" class="ms-1 mt-1 small"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-xl-4 mt-2">
+                            <label class="col-xl-2 col-12 form-label mt-2 text-16px color-9E9E9E" for="joinNm">이름</label>
+                            <div class="col-xl-6 col-12">
+                                <input type="text" class="form-control" name="userName" id="joinNm">
+                            </div>
+                        </div>
+                        
+                        <div class="row pe-0">
+                            <div class="col-xl-2"></div>
+                            <div class="col-xl-6 col-12 d-flex pe-0 mt-1">
+                                <div class="d-inline text-14px color-9E9E9E mt-1 ms-2">ⓘ</div>
+                                <div id="nameHelpMessage" class="d-inline mt-1 ms-1 text-14px color-9E9E9E">
+                                    실명으로 가입하지 않은 경우 데이터 제공신청, 분쟁조정신청 등 일부 서비스에 대해 불이익이 있을 수 있습니다
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-xl-4 mt-2">
+                            <label class="col-xl-2 col-12 form-label mt-1 text-16px color-9E9E9E" for="joinMail">이메일</label>
+                            <div class="d-flex col-xl-10">
+                                <div class="col-xl-7 col-9">
+                                    <input type="text" class="form-control" name="userMail" id="joinMail">
+                                </div>
+                                <button type="button" class="ms-1 ms-xl-2 col-2 col-xl-1 btn sub-confirm-btn text-14px color-484848" id="emailConfirmBtn">이메일인증</button>
+                            </div>
+                        </div>
+
+                        <div class="row pe-0 pe-xl-3">
+                            <div class="col-xl-2"></div>
+                            <div class="col-xl-8 col-12 pe-0 pe-xl-3">
+                                <div class="m-1">
+                                    <input type="checkbox" id="emailReceptionAgreeCheckbox">
+                                    <label for="emailReceptionAgreeCheckbox" class="text-16px color-484848 ms-1">이메일 수신 동의</label>
+                                </div>
+                                <div class="col d-flex mb-1">
+                                    <div class="d-inline text-14px color-9E9E9E mt-1 ms-2">ⓘ</div>
+                                    <div class="d-inline mt-1 ms-1 text-14px color-9E9E9E">
+                                        수신거부 시 일부 서비스에 제한이 있을 수 있습니다.
+                                        비밀번호 초기화 메일 수신 등에 반드시 필요한 정보이므로 정확히 이메일 주소를 입력해주세요.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="emailConfirmDiv" class="row mt-4" style="display: none;">
+                            <label for="emailConfirmInput" class="col-xl-2 col-12 form-label mt-2 text-16px color-9E9E9E text-letter-narrow">이메일 인증번호</label>
+                            <div class="d-flex col-xl-10">
+                                <div class="col-xl-7 col-9">
+                                    <input type="text" class="col form-control" id="emailConfirmInput">
+                                </div>
+                                <button type="button" class="ms-1 ms-xl-2 col-2 col-xl-1 btn sub-confirm-btn text-14px color-484848" id="emailConfirmNumberBtn">인증확인
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-10 col-12">
+                                    <small id="emailConfirmHelpMessage" class="ms-1 mt-1 small"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                <!-- 회원가입 form end -->
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="joinBtn">회원가입</button>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <!-- 회원가입 Modal end -->
+
 
 <script>
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        
-    });
-    
-    // ID 중복체크 
-    function duplicationId(input){
-        const id = input.value;
-        const arrTag = document.getElementById("duplicateArm");
+    const validation = new Validation();
+    const commonLogin = new CommonLogin();
+</script>
 
-        try{
-            if(id != ""){
-                const url = "/user/findByUserId";
-                const formData = new URLSearchParams($("#joinForm").serialize());
-                
-                axios
-                .post(url, formData)
-                .then(function (response) {
-                    arrTag.innerText = response.data ? "중복된아이디입니다." : "사용가능한아이디입니다.";
-                })
-                .catch(function (error) {
-                    CustomAlert.error(error.response.data);
-                });
-            }else{
-                arrTag.innerText = "";
-            }
-        }catch(e){
-            CustomAlert.error(error.response.data);
-        }
-    };
+<script>
+    $(window).on("load", function () {
+        // 로그인
+        let button = $("#loginBtn");
+        button.click((e) => {
+                if(!$("#loginId").val() || !$("#loginPwd").val()){
+                    const errorMessage= "아이디와 비밀번호를 입력해 주세요.";
+                    CustomAlert.error(errorMessage);
+                    return false;
+                }
 
-    // 로그인
-    $("#loginForm").submit(function(){
+                const url = "user/actionLogin";
+                const formData = new URLSearchParams($("#loginForm").serialize());
+                try{
+                    axios
+                        .post(url,formData)
+                        .then(function(response){   
+                            if(response.status == 200){
+                                commonLogin.saveUsernameToCookie();
+                                location.href = "/login";
+                            }
+                        })
+                        .catch(function(error){
+                            console.log(error)
+                            CustomAlert.error(error.response.data.message);
+                        })
+                }catch (e){
+                    CustomAlert.error(e.response.message)
+                }
+        });
+    })
 
-        if(validation.form("loginForm", validation.loginRule)){
-            const url = "user/actionLogin";
-            const formData = new URLSearchParams($("#loginForm").serialize());
-            try{
-                axios
-                    .post(url,formData)
-                    .then(function(response){   
-                        console.log(response)
-                        if(response.status == 200){
-                            location.href = "/login";
-                        }
-                    })
-                    .catch(function(error){
-                        
-                        CustomAlert.error(error.response.data);
-                    })
-            }catch (e){
-                CustomAlert.error(e.response.data)
-            }
-        }
-    
-    });
+    // ID 중복 체크
+   /* $("#idDupCheckBtn").click(function(){
+      
+    });*/
 
     // 회원가입
     $("#joinForm").submit(function(){
@@ -130,6 +312,7 @@
             }
         })
     });
+
 
 </script>
 

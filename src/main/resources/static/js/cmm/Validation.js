@@ -11,7 +11,6 @@
 class Validation{
 
     /* 기능에 따른 유효성 검사 규칙 정의 */
-
     loginRule = {
         userId:{
             required: true
@@ -117,7 +116,6 @@ class Validation{
      * @param {Object} rules 유효성 검사 규칙
      */
     form(formId, rules){
-        console.log($("#"+formId))
         $("#"+formId).validate({
             rules: rules,
             errorPlacement: function(error, element) {

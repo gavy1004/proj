@@ -1,0 +1,124 @@
+.next-step-btn {
+    background: #2492f3;
+    border-radius: 100px;
+    color: #FFFFFF;
+    width: 205px;
+    border-color: #2492f3;
+}
+
+.horizontal-line {
+    width: 100%;
+    height: 20px;
+    border-bottom: 1px solid #D9D9D9;
+    text-align: center;
+}
+
+.horizontal-line-text-warp {
+    margin-top: -14px;
+}
+
+.horizontal-line-text-w100 {
+    width: 120px;
+    background-color: white;
+}
+
+.pt-cursor{
+    cursor: pointer;
+}
+
+.colorNaver {
+    background-color: #1DC800;
+    color: #FFFFFF;
+}
+
+.colorKakao {
+    background-color: #FAE400;
+    color: #3C1E1E;
+}
+
+.socialLoginButton {
+    border-radius: 10px;
+    height: 48px;
+    width: 100%;
+    font-size: 16px;
+    position: relative;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.socialLoginButton .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.color-9E9E9E {
+    color: #9E9E9E;
+}
+
+.color-484848 {
+    color: #484848;
+}
+
+.text-16px {
+    font-size: 15px;
+}
+.text-14px {
+    font-size: 14px;
+}
+
+.sub-confirm-btn {
+    background: #FFFFFF;
+    border: 1px solid #B8B8B8;
+    border-radius: 5px;
+    width: 104px;
+    height: 38px;
+}
+
+#idDupCheckBtn:hover {
+    color: #212529;
+}
+
+.input-is-valid {
+    border-color: #2492F3;
+    background-image: url(/images/icons/circle-check.png);
+    background-position: right 12px center;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+.input-is-invalid {
+    border-color: #FF5D5D;
+    background-image: url(/images/icons/circle-exclamation.png);
+    background-position: right 12px center;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+}
+
+#eye-icon-wrapper {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+}
+
+#eye-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: grey;
+}
+
+.ms-1 {
+    margin-left: 0.25rem !important;
+}
+
+.text-primary {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-danger {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+}
