@@ -14,6 +14,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+/**
+ * @description Jwt 토큰 유효성 검증 
+ * 
+ */
 
 @Slf4j
 @RequiredArgsConstructor

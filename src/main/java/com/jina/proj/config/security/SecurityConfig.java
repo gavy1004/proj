@@ -68,7 +68,9 @@ public class SecurityConfig {
                 "/",
                 "/favicon.ico",
                 "/error",
-                "/user/**"
+                "/user/**",
+                "/oauth/**",
+                "/oauth/**/**"
         );
     }
 
@@ -89,14 +91,14 @@ public class SecurityConfig {
             .and()
             .sessionManagement() // 세션 관리 설정
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 생성하지 않음
-
             // 권한 검사
             .and()
             .authorizeRequests() 
              // 회원가입과 로그인은 모두 승인
-            .antMatchers("/join", "/login", "/user/**").permitAll()
+            .antMatchers("/join", "/login", "/user/**","/oauth/**","/oauth/**/**").permitAll()
             .antMatchers("/main")
             .access("@JwtAuthChecker.checkAuthURI(request)") // 권한별 메뉴 접근 허용
+            
             .and()
             .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) // JWT
             .exceptionHandling()

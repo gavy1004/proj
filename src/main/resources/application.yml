@@ -39,3 +39,13 @@ jwt:
   key: and0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdpLWp3dC10ZXN0LWFsamphYmFlZ2ktand0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdpLWp3dC10ZXN0LWFsamphYmFlZ2ktand0LXRlc3QtYWxqamFiYWVnaS1qd3QtdGVzdC1hbGpqYWJhZWdp
   accExpt: 10000000 
   refExpt: 3600000
+
+oauth:
+  naver:
+    clientId: MrKdSQ9M24XOj11y8ElX
+    clientSecret: lM1cnQSszM
+    redirectURL: http://www.localhost:8160/oauth/naver/callback
+  kakao:
+    clientId: 6dc30ede4b65bf92996819f7b936c627
+    clientSecret: wQGxKpaaRJxDxk8lrKZAcKbZJGPq64yq
+    redirectURL: http://localhost:8160/oauth/kakao

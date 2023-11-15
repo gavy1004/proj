@@ -49,6 +49,7 @@ class Validation {
         this.emailReceptionAgreeCheckbox = document.getElementById("emailReceptionAgreeCheckbox");
         this.joinModal = document.getElementById("joinModal");
         this.joinModalCanBtn = document.getElementById("joinModalCanBtn");
+
         this.initValidator();
         this.initUserIdCheck(); // ID 확인
         this.initInfoInputs();  // 인풋 입력

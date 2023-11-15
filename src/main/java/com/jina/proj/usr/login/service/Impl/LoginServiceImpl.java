@@ -52,10 +52,7 @@ public class LoginServiceImpl implements LoginService, UserDetailsService {
     @Override
     public void login(Account account, HttpServletRequest request, HttpServletResponse response) throws Exception {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(account.getUserId(), account.getUserPwd()); // 인증 객체 생성
-
-            log.info(account.getUserId());
-            log.info(account.getUserPwd());
-
+            
         try {
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken); // loadUserByUsername 메소드를 통해 검증
             SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContextHolder에 인증 정보 저장
