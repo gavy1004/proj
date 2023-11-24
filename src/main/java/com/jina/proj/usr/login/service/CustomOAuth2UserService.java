@@ -103,30 +103,28 @@ public class CustomOAuth2UserService  extends DefaultOAuth2UserService {
 
         int responseCode = conn.getResponseCode();
 
-        log.info("getKakaoUserInfo responseCode : " + responseCode);
+        if(responseCode == 200){
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String line = "";
+            StringBuilder result = new StringBuilder();
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-        String line = "";
-        StringBuilder result = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                result.append(line);
+            }
 
-        while ((line = br.readLine()) != null) {
-            result.append(line);
+            String jsonString = result.toString();
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonString);
+
+            log.info(jsonString);
+
+            String nickname = jsonNode.path("kakao_account").path("profile").path("nickname").asText();
+            String email = jsonNode.path("kakao_account").path("email").asText();
+            
+            userInfo.put("nickname", nickname);
+            userInfo.put("email", email);
         }
-
-        String jsonString = result.toString();
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(jsonString);
-
-        log.info(jsonString);
-
-        // "kakao_account.profile.nickname"
-        String nickname = jsonNode.path("kakao_account").path("profile").path("nickname").asText();
-        log.info("nickname = "+nickname);
-        // "kakao_account.email"
-        String email = jsonNode.path("kakao_account").path("email").asText();
-        
-        userInfo.put("nickname", nickname);
-        userInfo.put("email", email);
+   
 
         return userInfo;
     }
